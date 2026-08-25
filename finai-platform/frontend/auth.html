@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in · KorisQuant AI</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* Apply the stored/system theme before first paint to avoid a flash of the
+   wrong colour scheme. Must stay inline and synchronous. */
+(function () {
+  try {
+    var t = localStorage.getItem('korisquant:theme') || localStorage.getItem('finai:theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+})();
+</script>
+<link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<link rel="stylesheet" href="/assets/css/auth.css">
+</head>
+<body class="auth-page">
+
+<div class="auth-split">
+
+  <!-- ------------------------------------------------ brand / marketing -->
+  <aside class="auth-aside">
+    <a class="auth-brand" href="/">
+      <span class="auth-logo">K</span>
+      <span>
+        <span class="auth-brand-name">KorisQuant AI</span>
+        <span class="auth-brand-sub">Intelligent Market Research</span>
+      </span>
+    </a>
+
+    <div class="auth-aside-body">
+      <h2>Quantitative research,<br>without the black box.</h2>
+      <p class="auth-aside-lede">
+        Forecasting models, trading agents and a risk engine in one workspace —
+        with every number traceable to the data that produced it.
+      </p>
+      <ul class="auth-aside-list">
+        <li><span>◭</span> Deep-learning forecasts with measured coverage</li>
+        <li><span>⬡</span> 13 reinforcement-learning agents, benchmarked honestly</li>
+        <li><span>◇</span> Explainable AI on every prediction</li>
+        <li><span>⚠</span> VaR, EVT tails and crash-risk scoring</li>
+      </ul>
+      <div class="auth-aside-stats">
+        <div><strong>13</strong><span>RL algorithms</span></div>
+        <div><strong>17</strong><span>Indicators</span></div>
+        <div><strong>776</strong><span>Tests passing</span></div>
+      </div>
+    </div>
+
+    <p class="auth-aside-foot">
+      Educational and research software · Not investment advice
+    </p>
+  </aside>
+
+  <!-- ------------------------------------------------------------ forms -->
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <div class="auth-mobile-brand">
+        <span class="auth-logo">K</span>
+        <span class="auth-brand-name">KorisQuant AI</span>
+      </div>
+
+      <!-- banner: verification result, redirect notice, errors -->
+      <div class="auth-banner" id="authBanner" role="status"></div>
+
+      <!-- ------------------------------------------------------- SIGN IN -->
+      <section class="auth-view" id="viewLogin">
+        <h1>Welcome back</h1>
+        <p class="auth-sub">Sign in to your KorisQuant AI workspace.</p>
+
+
+        <form id="loginForm" novalidate>
+          <label for="loginId">Username or email</label>
+          <input type="text" id="loginId" autocomplete="username" required
+                 placeholder="you@example.com">
+
+          <label for="loginPw">Password</label>
+          <div class="auth-password">
+            <input type="password" id="loginPw" autocomplete="current-password" required
+                   placeholder="Your password">
+            <button type="button" class="auth-eye" data-toggle="loginPw"
+                    aria-label="Show password">👁</button>
+          </div>
+
+          <label class="auth-check">
+            <input type="checkbox" id="rememberMe">
+            <span>Keep me signed in for 30 days</span>
+          </label>
+
+          <div class="auth-error" id="loginError"></div>
+          <button type="submit" class="btn btn-primary auth-submit" id="loginSubmit">
+            Sign in</button>
+        </form>
+
+        <p class="auth-switch">New to KorisQuant AI?
+          <button type="button" class="auth-link" data-goto="register">Create an account</button></p>
+      </section>
+
+      <!-- ------------------------------------------------------ REGISTER -->
+      <section class="auth-view hidden" id="viewRegister">
+        <h1>Create your account</h1>
+        <p class="auth-sub">Free, and ready in under a minute.</p>
+
+
+        <form id="registerForm" novalidate>
+          <div class="auth-row">
+            <div>
+              <label for="regName">Full name <span class="auth-optional">optional</span></label>
+              <input type="text" id="regName" autocomplete="name" placeholder="Ada Lovelace">
+            </div>
+            <div>
+              <label for="regUser">Username</label>
+              <input type="text" id="regUser" autocomplete="username" required
+                     placeholder="ada" minlength="3" maxlength="32">
+            </div>
+          </div>
+
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" autocomplete="email" required
+                 placeholder="you@example.com">
+
+          <label for="regPw">Password</label>
+          <div class="auth-password">
+            <input type="password" id="regPw" autocomplete="new-password" required
+                   placeholder="At least 8 characters">
+            <button type="button" class="auth-eye" data-toggle="regPw"
+                    aria-label="Show password">👁</button>
+          </div>
+
+          <!-- Live strength feedback: telling someone their password is weak
+               only after they submit is a needless round trip. -->
+          <div class="auth-strength" id="pwStrength" hidden>
+            <div class="auth-strength-bar"><span id="pwBar"></span></div>
+            <div class="auth-strength-label" id="pwLabel"></div>
+          </div>
+          <ul class="auth-rules" id="pwRules">
+            <li data-rule="length">At least 8 characters</li>
+            <li data-rule="letter">Contains a letter</li>
+            <li data-rule="digit">Contains a number</li>
+          </ul>
+
+          <label for="regPw2">Confirm password</label>
+          <input type="password" id="regPw2" autocomplete="new-password" required
+                 placeholder="Repeat your password">
+
+          <label class="auth-check">
+            <input type="checkbox" id="regRemember">
+            <span>Keep me signed in for 30 days</span>
+          </label>
+          <label class="auth-check">
+            <input type="checkbox" id="regTerms" required>
+            <span>I agree to the <a href="/#" data-legal="terms">Terms</a> and
+              <a href="/#" data-legal="privacy">Privacy Policy</a></span>
+          </label>
+
+          <div class="auth-error" id="registerError"></div>
+          <button type="submit" class="btn btn-primary auth-submit" id="registerSubmit">
+            Create account</button>
+        </form>
+
+        <p class="auth-switch">Already have an account?
+          <button type="button" class="auth-link" data-goto="login">Sign in</button></p>
+      </section>
+
+
+      <p class="auth-legal">
+        Protected by bcrypt password hashing and signed session cookies.
+        <a href="/">← Back to homepage</a>
+      </p>
+    </div>
+  </main>
+</div>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+meta:
+  algo: dqn
+  family: value_based
+  action_space: discrete
+  description: Baseline DQN with a replay buffer and a hard target network.
+network:
+  double: false
+  dueling: false
+optimizer:
+  learning_rate: 0.0005

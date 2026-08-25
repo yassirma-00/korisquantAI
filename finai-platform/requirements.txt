@@ -1,0 +1,9 @@
+# Convenience shim so `pip install -r requirements.txt` works from the project
+# root as well as from backend/. The real dependency list lives with the code it
+# belongs to.
+#
+# Note: install the CPU-only torch wheel FIRST to avoid pulling ~2 GB of CUDA:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
+
+-r backend/requirements.txt

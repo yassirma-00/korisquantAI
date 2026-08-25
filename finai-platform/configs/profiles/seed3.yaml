@@ -1,0 +1,8 @@
+meta:
+  name: Seed3
+  description: 'Multi-seed protocol: seed 3'
+  builtin: false
+  updated: '2026-08-10T17:56:57.822221+00:00'
+training:
+  seed: 3
+  episodes: 8

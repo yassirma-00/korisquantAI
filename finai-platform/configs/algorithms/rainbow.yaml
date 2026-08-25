@@ -1,0 +1,18 @@
+meta:
+  algo: rainbow
+  family: distributional
+  action_space: discrete
+  description: Combined DQN improvements; strongest discrete agent here.
+optimizer:
+  learning_rate: 5.0e-05
+distributional:
+  n_atoms: 51
+  v_min: -10.0
+  v_max: 10.0
+  n_step: 3
+  per_alpha: 0.5
+  per_beta: 0.4
+  noisy: true
+exploration:
+  epsilon_start: 0.0
+  epsilon_end: 0.0

@@ -1,0 +1,22 @@
+meta:
+  algo: ppo
+  family: policy_gradient
+  action_space: both
+  backend: sb3
+  description: Clipped-objective on-policy method; works single-asset and multi-asset.
+training:
+  total_timesteps: 30000
+optimizer:
+  learning_rate: 0.0003
+  batch_size: 64
+policy_gradient:
+  n_steps: 512
+  n_epochs: 10
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  vf_coef: 0.5
+network:
+  hidden:
+  - 128
+  - 128

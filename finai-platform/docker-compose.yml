@@ -1,0 +1,74 @@
+# ==========================================================================
+# KorisQuant AI Platform - local / staging stack
+#
+#   docker compose up --build                 # API + dashboard on :8000
+#   docker compose --profile full up --build  # + PostgreSQL + Redis
+# ==========================================================================
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: infra/docker/Dockerfile
+    image: korisquant-platform:latest
+    container_name: finai-api
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      DATA_MODE: ${DATA_MODE:-hybrid}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SECRET_KEY: ${SECRET_KEY:-change-me}
+      SCHEDULER_ENABLED: ${SCHEDULER_ENABLED:-false}
+      # Provider keys are optional - Yahoo Finance needs none
+      ALPHA_VANTAGE_API_KEY: ${ALPHA_VANTAGE_API_KEY:-}
+      FINNHUB_API_KEY: ${FINNHUB_API_KEY:-}
+      POLYGON_API_KEY: ${POLYGON_API_KEY:-}
+      NEWSAPI_KEY: ${NEWSAPI_KEY:-}
+    volumes:
+      - finai-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: finai-postgres
+    profiles: ["full"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-finai}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-finai}
+      POSTGRES_DB: ${POSTGRES_DB:-finai}
+    ports:
+      - "5432:5432"
+    volumes:
+      - finai-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-finai}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: finai-redis
+    profiles: ["full"]
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - finai-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  finai-data:
+  finai-pg:
+  finai-redis:

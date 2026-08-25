@@ -1,0 +1,253 @@
+/* ============================================================
+   KorisQuant AI — authentication screen
+
+   Split layout: brand and proof on the left, the form on the right.
+   Every colour comes from the shared theme tokens so this screen and
+   the product stay identical and both follow the dark/light switch.
+   ============================================================ */
+
+body.auth-page {
+  margin: 0;
+  background: var(--bg-0);
+  color: var(--text-0);
+  font-family: var(--font);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.auth-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* -------------------------------------------------------------- aside */
+.auth-aside {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(28px, 4vw, 52px);
+  background: var(--bg-1);
+  background-image: var(--grad-mesh);
+  border-right: 1px solid var(--border-soft);
+  overflow: hidden;
+}
+
+.auth-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+.auth-logo {
+  width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+  background: var(--grad-accent); color: var(--text-inv);
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 20px;
+  box-shadow: var(--shadow-accent);
+}
+.auth-brand-name {
+  display: block; font-weight: 750; font-size: 16.5px;
+  letter-spacing: -.3px; color: var(--text-0);
+}
+.auth-brand-sub {
+  display: block; font-size: 10px; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+.auth-aside-body { max-width: 460px; }
+.auth-aside-body h2 {
+  margin: 0 0 16px;
+  font-size: clamp(24px, 3vw, 36px); font-weight: 800;
+  line-height: 1.15; letter-spacing: -.03em;
+}
+.auth-aside-lede {
+  margin: 0 0 28px; font-size: 15px; line-height: 1.65; color: var(--text-1);
+}
+.auth-aside-list { list-style: none; margin: 0 0 32px; padding: 0; display: grid; gap: 13px; }
+.auth-aside-list li {
+  display: flex; align-items: center; gap: 11px;
+  font-size: 13.5px; color: var(--text-1);
+}
+.auth-aside-list span {
+  display: grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0;
+  background: var(--accent-soft); color: var(--accent); font-size: 13px;
+}
+
+.auth-aside-stats { display: flex; gap: 30px; flex-wrap: wrap; }
+.auth-aside-stats strong {
+  display: block; font-size: 24px; font-weight: 800; letter-spacing: -.7px;
+  background: var(--grad-accent);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.auth-aside-stats span {
+  font-size: 11px; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: .8px; font-weight: 600;
+}
+.auth-aside-foot { margin: 0; font-size: 11.5px; color: var(--text-2); }
+
+/* --------------------------------------------------------------- main */
+.auth-main {
+  display: flex; align-items: center; justify-content: center;
+  padding: clamp(24px, 4vw, 48px) clamp(18px, 4vw, 40px);
+}
+.auth-card { width: 100%; max-width: 420px; }
+
+.auth-mobile-brand {
+  display: none; align-items: center; gap: 10px; margin-bottom: 26px;
+}
+.auth-mobile-brand .auth-brand-name { font-size: 17px; }
+
+.auth-card h1 {
+  margin: 0 0 7px; font-size: 26px; font-weight: 800; letter-spacing: -.5px;
+}
+.auth-sub { margin: 0 0 24px; font-size: 14px; color: var(--text-1); line-height: 1.55; }
+
+/* ------------------------------------------------------------- banner */
+.auth-banner {
+  display: none; margin-bottom: 18px; padding: 11px 14px;
+  border-radius: var(--radius-sm); font-size: 13px; line-height: 1.5;
+  border-left: 3px solid var(--accent); background: var(--accent-soft);
+  color: var(--text-0);
+}
+.auth-banner.show { display: block; }
+.auth-banner.success { border-left-color: var(--green); background: var(--green-soft); }
+.auth-banner.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.auth-banner.error { border-left-color: var(--red); background: var(--red-soft); }
+.auth-banner code {
+  display: block; margin-top: 7px; padding: 7px 9px;
+  background: var(--bg-2); border-radius: 6px;
+  font-family: var(--mono); font-size: 11px;
+  word-break: break-all; color: var(--accent);
+}
+
+/* --------------------------------------------------------------- forms */
+.auth-view label {
+  display: block; margin: 15px 0 6px;
+  font-size: 12.5px; font-weight: 600; color: var(--text-1);
+}
+.auth-view input[type=text],
+.auth-view input[type=email],
+.auth-view input[type=password] {
+  width: 100%; padding: 11px 13px;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--text-0);
+  font-size: 14px; font-family: var(--font);
+  transition: border-color var(--t-fast) var(--ease),
+              box-shadow var(--t-fast) var(--ease),
+              background var(--t-fast) var(--ease);
+}
+.auth-view input:hover { border-color: var(--border-strong); }
+.auth-view input:focus {
+  outline: none; border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.auth-view input::placeholder { color: var(--text-2); }
+.auth-view input[aria-invalid="true"] { border-color: var(--red); }
+
+.auth-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.auth-row label { margin-top: 15px; }
+.auth-optional { color: var(--text-2); font-weight: 400; }
+
+
+/* Reveal toggle: typos in a masked field are the most common cause of a
+   failed sign-in, and hiding the text does not protect anything here. */
+.auth-password { position: relative; }
+.auth-password input { padding-right: 44px; }
+.auth-eye {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 32px; height: 32px; border: none; border-radius: var(--radius-xs);
+  background: transparent; cursor: pointer; font-size: 14px;
+  opacity: .55; transition: opacity var(--t-fast) var(--ease);
+}
+.auth-eye:hover { opacity: 1; }
+.auth-eye:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; opacity: 1; }
+
+.auth-check {
+  display: flex; align-items: flex-start; gap: 9px;
+  margin: 15px 0 0; font-size: 13px; color: var(--text-1);
+  font-weight: 400; cursor: pointer;
+}
+.auth-check input {
+  width: 16px; height: 16px; margin: 1px 0 0; flex-shrink: 0;
+  accent-color: var(--accent); cursor: pointer;
+}
+.auth-check a { color: var(--accent); }
+
+.auth-submit { width: 100%; justify-content: center; margin-top: 20px; padding: 12px; }
+.auth-submit:disabled { opacity: .6; cursor: progress; }
+
+.auth-error {
+  display: none; margin-top: 13px; padding: 10px 13px;
+  background: var(--red-soft); border-left: 3px solid var(--red);
+  border-radius: var(--radius-sm);
+  font-size: 12.5px; line-height: 1.5; color: var(--text-0);
+}
+.auth-error.show { display: block; }
+
+.auth-switch { margin: 20px 0 0; text-align: center; font-size: 13.5px; color: var(--text-1); }
+.auth-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: var(--font); font-size: inherit; font-weight: 600;
+  color: var(--accent); text-decoration: none;
+}
+.auth-link:hover { text-decoration: underline; }
+
+/* ------------------------------------------------------------ strength */
+.auth-strength { margin-top: 10px; }
+.auth-strength-bar {
+  height: 4px; border-radius: 3px; background: var(--bg-3); overflow: hidden;
+}
+.auth-strength-bar span {
+  display: block; height: 100%; width: 0; border-radius: 3px;
+  transition: width var(--t-mid) var(--ease), background var(--t-mid) var(--ease);
+}
+.auth-strength-bar span.weak { background: var(--red); }
+.auth-strength-bar span.fair { background: var(--amber); }
+.auth-strength-bar span.good { background: var(--accent); }
+.auth-strength-bar span.strong { background: var(--green); }
+.auth-strength-label { margin-top: 5px; font-size: 11.5px; color: var(--text-2); }
+
+.auth-rules { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 5px; }
+.auth-rules li {
+  position: relative; padding-left: 20px;
+  font-size: 11.5px; color: var(--text-2);
+  transition: color var(--t-fast) var(--ease);
+}
+.auth-rules li::before {
+  content: '○'; position: absolute; left: 0; font-size: 11px;
+}
+.auth-rules li.met { color: var(--green); }
+.auth-rules li.met::before { content: '✓'; }
+
+.auth-legal {
+  margin: 26px 0 0; text-align: center;
+  font-size: 11.5px; line-height: 1.6; color: var(--text-2);
+}
+.auth-legal a { color: var(--accent); margin-left: 6px; }
+
+.hidden { display: none !important; }
+
+/* --------------------------------------------------------- responsive */
+@media (max-width: 900px) {
+  .auth-split { grid-template-columns: 1fr; }
+  /* The marketing column is supporting material; on a phone the form is the
+     only thing that matters, so it takes the whole screen. */
+  .auth-aside { display: none; }
+  .auth-mobile-brand { display: flex; }
+  .auth-main { align-items: flex-start; padding-top: 34px; }
+}
+@media (max-width: 460px) {
+  .auth-row { grid-template-columns: 1fr; gap: 0; }
+  .auth-card h1 { font-size: 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-strength-bar span, .auth-view input { transition: none !important; }
+}
+
+/* Several validation problems at once read better as a list than as one
+   run-on sentence. */
+.auth-error-list { margin: 0; padding-left: 17px; }
+.auth-error-list li { margin: 3px 0; }
+

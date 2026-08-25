@@ -1,0 +1,8 @@
+meta:
+  algo: dueling_dqn
+  family: value_based
+  action_space: discrete
+  description: Dueling architecture plus double Q-learning. Platform default.
+network:
+  double: true
+  dueling: true

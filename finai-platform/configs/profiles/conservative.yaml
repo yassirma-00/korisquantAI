@@ -1,0 +1,18 @@
+meta:
+  name: Conservative
+  description: Capital preservation. Heavier risk penalties, smaller trades, regime-aware.
+  builtin: true
+environment:
+  trade_fraction: 0.15
+  transaction_cost: 0.001
+risk:
+  risk_penalty: 0.3
+  drawdown_penalty: 0.6
+  turnover_penalty: 0.05
+  cvar_penalty: 0.25
+  regime_aware: true
+  regime_reward_weight: 1.5
+optimizer:
+  learning_rate: 0.0003
+training:
+  episodes: 30

@@ -1,0 +1,16 @@
+meta:
+  name: Aggressive
+  description: Maximises return and tolerates drawdown. Larger trades, light penalties.
+  builtin: true
+environment:
+  trade_fraction: 0.5
+risk:
+  risk_penalty: 0.05
+  drawdown_penalty: 0.1
+  turnover_penalty: 0.005
+  cvar_penalty: 0.02
+  regime_aware: false
+optimizer:
+  learning_rate: 0.001
+exploration:
+  epsilon_end: 0.1

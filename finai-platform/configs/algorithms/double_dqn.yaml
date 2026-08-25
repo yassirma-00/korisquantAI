@@ -1,0 +1,8 @@
+meta:
+  algo: double_dqn
+  family: value_based
+  action_space: discrete
+  description: DQN with double Q-learning; reduces the max-operator bias.
+network:
+  double: true
+  dueling: false

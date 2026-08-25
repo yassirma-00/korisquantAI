@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Tests never touch the network: deterministic and fast.
+  DATA_MODE: offline
+  PYTHONPATH: backend
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - name: Ruff
+        run: ruff check backend/app backend/tests
+
+  test:
+    name: Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies (CPU torch)
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r backend/requirements.txt
+
+      - name: Run test suite
+        working-directory: backend
+        run: pytest tests/ -v --tb=short
+
+      - name: Smoke-test the API
+        working-directory: backend
+        run: |
+          uvicorn app.main:app --host 127.0.0.1 --port 8000 &
+          for i in $(seq 1 40); do
+            sleep 1
+            curl -fsS http://127.0.0.1:8000/health && break
+          done
+          curl -fsS http://127.0.0.1:8000/health | tee /dev/stderr | grep -q healthy
+          curl -fsS "http://127.0.0.1:8000/api/v1/market/quote/AAPL" > /dev/null
+          curl -fsS "http://127.0.0.1:8000/api/v1/dashboard/overview" > /dev/null
+
+  docker:
+    name: Docker build
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infra/docker/Dockerfile
+          push: false
+          load: true
+          tags: korisquant-platform:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Verify the container serves traffic
+        run: |
+          docker run -d --name finai -p 8000:8000 -e DATA_MODE=offline korisquant-platform:ci
+          for i in $(seq 1 40); do
+            sleep 2
+            if curl -fsS http://127.0.0.1:8000/health; then exit 0; fi
+          done
+          echo "container failed to become healthy" >&2
+          docker logs finai
+          exit 1

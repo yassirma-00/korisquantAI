@@ -1,0 +1,4 @@
+meta:
+  name: Default
+  description: Platform defaults. The baseline every other profile is measured against.
+  builtin: true

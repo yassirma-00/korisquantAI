@@ -1,0 +1,22 @@
+meta:
+  name: High-Performance
+  description: Longer training and wider networks. Same objective, more compute.
+  builtin: true
+training:
+  episodes: 60
+  total_timesteps: 100000
+network:
+  hidden:
+  - 256
+  - 256
+  - 128
+optimizer:
+  batch_size: 128
+replay:
+  buffer_size: 200000
+  min_buffer: 5000
+exploration:
+  epsilon_decay_steps: 25000
+evaluation:
+  eval_freq: 10
+  checkpoint_interval: 15

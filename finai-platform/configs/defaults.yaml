@@ -1,0 +1,52 @@
+meta:
+  description: Shared defaults for all reinforcement-learning algorithms.
+training:
+  seed: 42
+  device: cpu
+  episodes: 20
+  total_timesteps: null
+  test_fraction: 0.2
+  timesteps_per_episode_floor: 10000
+  continuous_timesteps_per_episode: 1500
+  continuous_timesteps_floor: 8000
+optimizer:
+  learning_rate: 0.0005
+  gamma: 0.99
+  batch_size: 64
+  grad_clip: 10.0
+network:
+  hidden:
+  - 128
+  - 128
+replay:
+  buffer_size: 50000
+  min_buffer: 1000
+  train_freq: 1
+  target_update: 250
+exploration:
+  epsilon_start: 1.0
+  epsilon_end: 0.05
+  epsilon_decay_steps: 8000
+  epsilon_decay_floor: 2000
+environment:
+  initial_balance: 100000.0
+  transaction_cost: 0.001
+  slippage: 0.0005
+  lookback: 20
+  trade_fraction: 0.25
+  reward_scaling: 100.0
+  allow_short: false
+risk:
+  risk_penalty: 0.15
+  drawdown_penalty: 0.35
+  turnover_penalty: 0.02
+  cvar_penalty: 0.1
+  cvar_alpha: 0.05
+  regime_aware: false
+  regime_step: 5
+  regime_window: 252
+  regime_reward_weight: 1.0
+evaluation:
+  eval_freq: 0
+  checkpoint_interval: 0
+  deterministic: true

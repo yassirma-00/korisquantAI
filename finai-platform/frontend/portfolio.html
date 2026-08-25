@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KorisQuant AI · Portfolio Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* Apply the stored/system theme before first paint to avoid a flash of the
+   wrong colour scheme. Must stay inline and synchronous. */
+(function () {
+  try {
+    /* Reads the new key, falling back to the pre-rebrand one. This runs before
+       theme.js (and therefore before the migration), so on the very first load
+       after the rename it is the only thing standing between the user and a
+       flash of the wrong colour scheme. */
+    var t = localStorage.getItem('korisquant:theme') || localStorage.getItem('finai:theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+})();
+</script>
+<link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">K</div>
+      <div>
+        <div class="brand-name">KorisQuant AI</div>
+        <div class="brand-sub">AI Trading Platform</div>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Analysis</div>
+      <a class="nav-item" href="index.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20V10M4 7V4M9 20v-4M9 13V4M15 20v-3M15 14V4M20 20v-8M20 9V4"/><rect x="2.5" y="7" width="3" height="3" rx="1"/><rect x="7.5" y="13" width="3" height="3" rx="1"/><rect x="13.5" y="14" width="3" height="3" rx="1"/><rect x="18.5" y="9" width="3" height="3" rx="1"/></svg></span> Market Overview</a>
+      <a class="nav-item" href="analysis.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 20h18"/><path d="M4 16l5-5 4 3 6-7"/><circle cx="9" cy="11" r="1.4"/><circle cx="13" cy="14" r="1.4"/></svg></span> Technical Analysis</a>
+      <a class="nav-item" href="forecast.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 20h18"/><path d="M4 15l5-4 3 2"/><path d="M12 13l4-3 4 2" stroke-dasharray="3 2.5"/><circle cx="12" cy="13" r="1.4"/></svg></span> AI Forecasting</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Intelligence</div>
+      <a class="nav-item" href="rl.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M6.5 6.5l1.8 1.8M15.7 15.7l1.8 1.8M17.5 6.5l-1.8 1.8M8.3 15.7l-1.8 1.8"/></svg></span> RL Agent</a>
+      <a class="nav-item" href="signals.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l2.1 5.2L19.5 10l-5.4 1.8L12 17l-2.1-5.2L4.5 10l5.4-1.8z"/><path d="M18 17l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z"/></svg></span> Recommendations</a>
+      <a class="nav-item" href="stress.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 18l4-7 3 4 3-8 4 11"/><path d="M3 21h18"/><path d="M13 3l-2 5h4l-2 5"/></svg></span> AI Stress Testing</a>
+      <a class="nav-item" href="xai.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5L21 21"/><path d="M8.5 12.5l2-2.5 2 2 2-3"/></svg></span> Explainability</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Management</div>
+      <a class="nav-item" href="portfolio.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="M12 4v8l6 3.6"/></svg></span> Portfolio</a>
+      <a class="nav-item" href="risk.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5.5c0 4.3-2.9 7.9-7 9.5-4.1-1.6-7-5.2-7-9.5V6z"/><path d="M12 9v3.5"/><circle cx="12" cy="15.6" r="0.9" fill="currentColor" stroke="none"/></svg></span> Risk & Alerts</a>
+      <a class="nav-item" href="hyperparams.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h6M14 7h6M4 12h10M18 12h2M4 17h3M11 17h9"/><circle cx="12" cy="7" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="9" cy="17" r="2"/></svg></span> Hyperparameters</a>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title">Portfolio Management</div>
+      <span class="badge badge-blue" id="activeSymbolBadge">—</span>
+      <div class="spacer"></div>
+      <div class="tr-host" data-timerange>
+        <div class="tr-seg"><span class="tr-marker"></span></div>
+      </div>
+      <!-- The symbol search used to live here. It only filled in the Trade
+           form, which already has its own symbol field two clicks away, so it
+           duplicated a control while implying the whole page followed it. -->
+      <label for="portfolioSelect" class="text-xs text-muted"
+             style="margin:0 8px 0 0">Portfolio</label>
+      <select id="portfolioSelect" style="width:210px"></select>
+      <button class="btn btn-sm" id="deletePBtn" title="Delete the selected portfolio">🗑 Delete</button>
+    </div>
+    <div class="content">
+      <div class="card mb-2">
+        <div class="card-header">
+          <div class="card-title">Instrument Intelligence</div>
+          <div class="spacer" style="flex:1"></div>
+          <span class="card-sub">Full analytics + strategy benchmarks under identical costs</span>
+        </div>
+        <div class="form-row">
+          <div class="form-field sp-wrap" style="flex:1.4">
+            <label>Symbol</label>
+            <input type="text" id="iSymbol" value="AAPL" autocomplete="off"
+                   placeholder="Search stocks, ETFs, crypto, forex…">
+            <div class="sp-panel" id="iSymbolPanel"></div>
+          </div>
+          
+          <div class="form-field sp-field"><label for="iBenchmark">Benchmark</label>
+            <input type="text" id="iBenchmark" value="SPY" autocomplete="off"
+                   placeholder="Search a benchmark…">
+            <div class="sp-panel" id="iBenchmarkPanel"></div></div>
+          <div class="form-field"><label>Capital</label><input type="number" id="iCapital" value="100000" min="1000"></div>
+          <div class="form-field"><label>Overlay RL agent</label>
+            <select id="iAgent"><option value="false">No</option><option value="true">Yes</option></select></div>
+          <button class="btn btn-primary" id="iRunBtn">Analyse</button>
+        </div>
+      </div>
+
+      <div class="grid grid-4 mb-2" id="iKpis" data-api-guard></div>
+
+      <div class="grid grid-3 mb-2">
+        <div class="card span-2">
+          <div class="card-header"><div class="card-title">Strategy Comparison</div>
+            <div class="spacer" style="flex:1"></div>
+            <span class="card-sub">Buy &amp; Hold · MA Crossover · Momentum · RSI</span></div>
+          <div id="iStrategyChart" class="chart chart-lg"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Risk Exposure</div></div>
+          <div id="iRisk"></div>
+        </div>
+      </div>
+
+      <div class="card mb-2">
+        <div class="card-header"><div class="card-title">Strategy Leaderboard</div></div>
+        <div id="iStrategyTable"></div>
+      </div>
+
+      <div class="grid grid-2 mb-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Rolling Sharpe (63d)</div></div>
+          <div id="iRollingChart" class="chart"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Monthly Returns</div></div>
+          <div id="iMonthlyChart" class="chart"></div>
+        </div>
+      </div>
+
+      <div class="card mb-2">
+        <div class="card-header"><div class="card-title">Worst Drawdown Episodes</div></div>
+        <div id="iDrawdowns"></div>
+      </div>
+
+      <div class="grid grid-4 mb-2" id="portfolioStats"></div>
+
+      <div class="grid grid-3 mb-2">
+        <div class="card span-2">
+          <div class="card-header"><div class="card-title">Equity Curve</div>
+            <div class="spacer" style="flex:1"></div>
+            </div>
+          <div class="text-xs text-muted mb-1">
+            Hypothetical backtest: applies today's holding weights to historical prices.
+            It shows how the <em>current</em> allocation would have behaved, not your realised trading history
+            (use Snapshots for that once the portfolio has run for a while).
+          </div>
+          <div id="pEquityChart" class="chart"></div>
+          <div class="stat-label mt-2">Drawdown</div>
+          <div id="pDrawdownChart" class="chart-sm"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Allocation</div></div>
+          <div id="pAllocChart" class="chart"></div>
+          <div id="pConcentration" class="text-xs text-muted mt-2"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-3 mb-2">
+        <div class="card span-2">
+          <div class="card-header"><div class="card-title">Holdings</div>
+            <div class="spacer" style="flex:1"></div>
+            <button class="btn btn-sm" id="refreshPBtn">Refresh</button></div>
+          <div id="holdingsTable"></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Trade</div>
+            <div class="spacer" style="flex:1"></div>
+            <span class="text-xs text-muted" id="tBuyingPower">—</span></div>
+
+          <div class="form-field mb-1" style="position:relative">
+            <label for="tSymbol">Symbol</label>
+            <input type="text" id="tSymbol" value="AAPL" autocomplete="off"
+                   placeholder="Search or type a ticker…">
+            <div class="sp-panel" id="tSymbolPanel"></div>
+          </div>
+
+          <!-- Live quote for the selected instrument. Trading blind against a
+               number typed into a box is how people fat-finger an order. -->
+          <div id="tQuote" class="trade-quote">
+            <span class="text-muted text-xs">Select a symbol</span>
+          </div>
+
+          <div class="form-field mb-1">
+            <label for="tNotional">Amount (USD)</label>
+            <input type="number" id="tNotional" value="10000" min="1" step="100">
+          </div>
+          <!-- Percentage shortcuts: sizing by fraction of buying power is how
+               the decision is actually made, not by typing an absolute figure. -->
+          <div class="btn-group mb-1" id="tQuickAmounts">
+            <span class="chip" data-pct="25">25%</span>
+            <span class="chip" data-pct="50">50%</span>
+            <span class="chip" data-pct="75">75%</span>
+            <span class="chip" data-pct="100">Max</span>
+          </div>
+
+          <div id="tPreview" class="trade-preview"></div>
+
+          <!-- The two order buttons are the primary action of this card, so
+               they carry the weight. "Buy"/"Sell" alone read as labels; naming
+               the order makes the click's consequence explicit. -->
+          <div class="btn-group trade-actions mb-2">
+            <button class="btn btn-green btn-order" id="buyBtn" style="flex:1">
+              <span class="order-verb">Place Buy Order</span>
+              <span class="order-sub" id="buySub">—</span>
+            </button>
+            <button class="btn btn-red btn-order" id="sellBtn" style="flex:1">
+              <span class="order-verb">Place Sell Order</span>
+              <span class="order-sub" id="sellSub">—</span>
+            </button>
+          </div>
+          <div style="border-top:1px solid var(--border-soft);padding-top:12px">
+            <div class="stat-label mb-1">New Portfolio</div>
+            <div class="form-field mb-1"><input type="text" id="npName" placeholder="Portfolio name"></div>
+            <div class="form-field mb-1"><input type="number" id="npCapital" value="100000" placeholder="Initial capital"></div>
+            <!-- This button creates a PORTFOLIO, not an order. It was labelled
+                 "Create" directly under Buy/Sell, which read as "create a
+                 trade". The name now states which object it makes. -->
+            <button class="btn btn-sm btn-secondary" id="createPBtn" style="width:100%">
+              Create Portfolio</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2 mb-2">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Optimiser & Rebalancing</div></div>
+          <div class="form-row mb-2">
+            <div class="form-field"><label>Objective</label>
+              <select id="optObjective">
+                <option value="max_sharpe">Max Sharpe</option>
+                <option value="min_volatility">Min Volatility</option>
+                <option value="risk_parity">Risk Parity</option>
+                <option value="max_return">Max Return</option>
+              </select></div>
+            <button class="btn btn-primary" id="planBtn">Plan Rebalance</button>
+            <button class="btn" id="executeBtn">Execute</button>
+          </div>
+          <div id="rebalanceBox"><div class="empty">Plan a rebalance to see suggested orders</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Efficient Frontier</div></div>
+          <div class="form-row mb-1">
+            <div class="form-field sp-field">
+              <label for="optSymbols">Assets</label>
+              <input type="text" id="optSymbols" autocomplete="off"
+                     placeholder="Type a ticker or company name…">
+              <div class="sp-panel" id="optSymbolsPanel"></div>
+            </div>
+            <button class="btn btn-sm btn-primary" id="frontierBtn">Compute</button>
+          </div>
+          <!-- The basket lives outside the dropdown too, so the chosen assets
+               stay visible once the panel closes. -->
+          <div class="sp-summary" id="optSymbolsSummary"></div>
+          <div id="frontierChart" class="chart">
+            <div class="empty">Enter symbols above and press Compute to plot the
+              risk/return frontier</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-2">
+        <div class="card-header"><div class="card-title">Performance Metrics</div></div>
+        <div id="pMetrics"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">Transactions</div></div>
+        <div id="txTable" class="scroll-y"></div>
+      </div>
+      <div class="disclaimer">
+        <strong>Disclaimer</strong> — Educational and research software. Model outputs are statistical
+        estimates, not investment advice. Always validate results independently before risking capital.
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/components.js"></script>
+<script src="/assets/js/timerange.js"></script>
+<script src="/assets/js/animate.js"></script>
+<script src="/assets/js/symbolpicker.js"></script>
+<script src="/assets/js/pages/portfolio.js"></script>
+<script src="/assets/js/pages/intelligence.js"></script>
+<script src="/assets/js/chat.js"></script>
+</body>
+</html>

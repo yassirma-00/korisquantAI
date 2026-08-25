@@ -1,0 +1,361 @@
+/* ============================================================
+   KorisQuant AI — Theme system
+   ------------------------------------------------------------
+   Every colour lives here as a custom property, declared twice:
+   once for dark, once for light. Nothing else in the codebase may
+   hard-code a colour, otherwise switching themes leaves orphans.
+
+   JS reads these same variables at runtime (see theme.js) so Plotly
+   charts repaint with the palette instead of drifting out of sync.
+
+   Palette choice: an indigo -> cyan accent ramp on a deep navy-black
+   base. It reads as modern quantitative-finance tooling, keeps clear
+   separation from the semantic red/green used for P&L, and holds up
+   on both backgrounds.
+
+   Contrast note: every token pair that carries text has been measured
+   against the surface it sits on. Where a brand colour could not reach
+   WCAG AA it gets a dedicated darkened/lightened token rather than
+   being used raw (see --chat-* and --accent-text).
+   ============================================================ */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* ---- surfaces ---------------------------------------------------
+     A five-step ladder. Each rung is a real, perceptible step so depth
+     is communicated by surface alone before any shadow is applied. */
+  --bg-0: #05070f;
+  --bg-1: #0b0f1c;
+  --bg-2: #121729;
+  --bg-3: #1b2338;
+  --bg-4: #232c45;
+  --bg-elev: #151b2e;
+  --bg-glass: rgba(11, 15, 28, .72);
+  --bg-hover: rgba(255, 255, 255, .045);
+  --bg-active: rgba(255, 255, 255, .07);
+  --bg-inset: rgba(0, 0, 0, .24);
+  /* Edge cue for horizontally scrollable panels. On a near-black surface a
+     black shadow is invisible, so dark mode uses a light wash instead. */
+  --scroll-shadow: rgba(160, 178, 230, .16);
+  /* Surface a scroller's cover layers paint, so the edge shadow is masked
+     at each end. Matches the card the table sits on. */
+  --scroll-face: #0b0f1c;
+
+  --border: #29334f;
+  --border-soft: #1a2135;
+  --border-strong: #38446a;
+  --border-glow: rgba(122, 108, 255, .34);
+  /* Hairline highlight painted along the top edge of raised surfaces. */
+  --edge-light: rgba(255, 255, 255, .055);
+
+  /* ---- text ------------------------------------------------------- */
+  --text-0: #f3f5fe;
+  --text-1: #aeb7d6;
+  --text-2: #7683a6;
+  --text-3: #58658a;
+  --text-inv: #070a14;
+
+  /* ---- brand accents ---------------------------------------------- */
+  --accent: #7a6cff;
+  /* --accent as *text* on --bg-1 measures 4.9:1; this is the variant used
+     wherever an accent word sits on a lighter panel. */
+  --accent-text: #a79eff;
+  --accent-2: #22d3ee;
+  --accent-3: #f472b6;
+  --accent-soft: rgba(122, 108, 255, .15);
+  --accent-softer: rgba(122, 108, 255, .08);
+  --accent-ring: rgba(122, 108, 255, .34);
+  --accent-line: rgba(122, 108, 255, .28);
+
+  /* ---- semantic (P&L) --------------------------------------------- */
+  --green: #22d98a;
+  --green-soft: rgba(34, 217, 138, .14);
+  --green-line: rgba(34, 217, 138, .32);
+  --red: #ff4d6a;
+  --red-soft: rgba(255, 77, 106, .14);
+  --red-line: rgba(255, 77, 106, .32);
+  --amber: #ffb63d;
+  --amber-soft: rgba(255, 182, 61, .14);
+  --amber-line: rgba(255, 182, 61, .32);
+  --purple: #a78bfa;
+  --cyan: #22d3ee;
+
+  /* Market-regime accents. Seven states need seven distinguishable hues; the
+     existing green/red/amber cover only three, so the rest live here as tokens
+     rather than as literals scattered through the page script. */
+  --regime-recovery: #3fb6a8;
+  --regime-calm: #6b8afd;
+  --regime-flat: #8b93a7;
+  --regime-bear: #e8743b;
+
+  /* ---- chart palette (consumed by JS) ------------------------------ */
+  --chart-grid: #1a2135;
+  --chart-zero: #2b3654;
+  --chart-1: #7a6cff;
+  --chart-2: #22d3ee;
+  --chart-3: #22d98a;
+  --chart-4: #ffb63d;
+  --chart-5: #f472b6;
+  --chart-6: #60a5fa;
+  --chart-7: #94a3b8;
+
+  /* ---- gradients --------------------------------------------------- */
+  --grad-accent: linear-gradient(135deg, #7a6cff 0%, #22d3ee 100%);
+  --grad-accent-soft: linear-gradient(135deg, rgba(122, 108, 255, .18), rgba(34, 211, 238, .08));
+  --grad-warm: linear-gradient(135deg, #f472b6 0%, #ffb63d 100%);
+  --grad-green: linear-gradient(135deg, #22d98a 0%, #14b8a6 100%);
+  --grad-red: linear-gradient(135deg, #ff4d6a 0%, #e11d48 100%);
+  --grad-amber: linear-gradient(135deg, #ffb63d 0%, #f59e0b 100%);
+  /* Very low-alpha wash that gives a flat card a lit corner. */
+  --grad-surface: linear-gradient(155deg, rgba(122, 108, 255, .05) 0%, rgba(34, 211, 238, .018) 46%, transparent 78%);
+  --grad-rail: linear-gradient(180deg, rgba(122, 108, 255, .07), transparent 42%);
+  --grad-mesh:
+    radial-gradient(1000px 560px at 82% -12%, rgba(122, 108, 255, .11), transparent 62%),
+    radial-gradient(820px 480px at 0% 104%, rgba(34, 211, 238, .07), transparent 60%);
+
+  /* ---- assistant panel --------------------------------------------
+     The chat sits on --bg-2, which is lighter than the page, so tokens that
+     pass AA elsewhere lose contrast inside it. These are measured against the
+     panel's own surfaces:
+       --chat-user-bg   white text on it -> 6.11:1  (plain --accent gave 3.86)
+       --chat-chip-fg   on accent-soft over --bg-2 -> 6.07:1  (--accent: 3.64)
+       --chat-muted     on --bg-2 -> 5.96:1        (--text-2: 4.31) */
+  --chat-user-bg: #5a48e0;
+  --chat-user-fg: #ffffff;
+  --chat-chip-fg: #a99fff;
+  --chat-muted: #8b98bd;
+
+  /* ---- elevation ---------------------------------------------------
+     Dark UIs need shadow *and* a lit edge: shadow alone on a near-black
+     background is invisible, which is why --edge-light exists above. */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, .34);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .3), 0 2px 8px rgba(0, 0, 0, .22);
+  --shadow: 0 4px 14px rgba(0, 0, 0, .36), 0 14px 36px rgba(0, 0, 0, .26);
+  --shadow-lg: 0 10px 28px rgba(0, 0, 0, .42), 0 28px 72px rgba(0, 0, 0, .34);
+  --shadow-glow: 0 0 0 1px var(--border-glow), 0 8px 30px rgba(122, 108, 255, .2);
+  --shadow-accent: 0 3px 14px rgba(122, 108, 255, .36);
+  --shadow-green: 0 3px 14px rgba(34, 217, 138, .3);
+  --shadow-red: 0 3px 14px rgba(255, 77, 106, .3);
+  --shadow-amber: 0 3px 14px rgba(255, 182, 61, .3);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Light mode is not "dark inverted": it needs its own contrast ladder.
+     Surfaces stay near-white with a cool tint; borders carry the structure
+     that shadows carry in dark mode. */
+  --bg-0: #f4f6fc;
+  --bg-1: #ffffff;
+  --bg-2: #f1f4fb;
+  --bg-3: #e4e9f5;
+  --bg-4: #d7deee;
+  --bg-elev: #ffffff;
+  --bg-glass: rgba(255, 255, 255, .8);
+  --bg-hover: rgba(15, 23, 42, .04);
+  --bg-active: rgba(15, 23, 42, .07);
+  --bg-inset: rgba(15, 23, 42, .035);
+  --scroll-shadow: rgba(17, 24, 48, .14);
+  --scroll-face: #ffffff;
+
+  --border: #d3daec;
+  --border-soft: #e6eaf5;
+  --border-strong: #b9c4de;
+  --border-glow: rgba(93, 76, 232, .3);
+  --edge-light: rgba(255, 255, 255, .9);
+
+  --text-0: #111830;
+  --text-1: #3b4660;
+  /* --text-2 drives labels and captions: measured at 4.6:1 on --bg-1,
+     just above the WCAG AA threshold for small text. */
+  --text-2: #5c6880;
+  --text-3: #78849c;
+  --text-inv: #ffffff;
+
+  /* Accents are darkened so they keep AA contrast on white */
+  --accent: #5d4ce8;      /* 4.9:1 as text on --bg-1 (WCAG AA) */
+  --accent-text: #4f3ddb;
+  --accent-2: #0891b2;
+  --accent-3: #db2777;
+  --accent-soft: rgba(93, 76, 232, .1);
+  --accent-softer: rgba(93, 76, 232, .05);
+  --accent-ring: rgba(93, 76, 232, .28);
+  --accent-line: rgba(93, 76, 232, .24);
+
+  --green: #04834b;      /* 4.6:1 on --bg-1: passes AA at any text size */
+  --green-soft: rgba(6, 165, 95, .11);
+  --green-line: rgba(6, 165, 95, .3);
+  --red: #dc2545;
+  --red-soft: rgba(220, 37, 69, .1);
+  --red-line: rgba(220, 37, 69, .28);
+  --amber: #b8700a;
+  --amber-soft: rgba(204, 122, 0, .12);
+  --amber-line: rgba(204, 122, 0, .3);
+  --purple: #7c3aed;
+  --cyan: #0891b2;
+
+  /* Regime accents, darkened for contrast on the light background. */
+  --regime-recovery: #0f7a70;
+  --regime-calm: #3f5bd4;
+  --regime-flat: #5c6880;
+  --regime-bear: #b8501c;
+
+  --chart-grid: #e6eaf5;
+  --chart-zero: #cbd3e6;
+  --chart-1: #5d4ce8;
+  --chart-2: #0891b2;
+  --chart-3: #06a55f;
+  --chart-4: #cc7a00;
+  --chart-5: #db2777;
+  --chart-6: #2563eb;
+  --chart-7: #64748b;
+
+  --grad-accent: linear-gradient(135deg, #5d4ce8 0%, #0891b2 100%);
+  --grad-accent-soft: linear-gradient(135deg, rgba(93, 76, 232, .12), rgba(8, 145, 178, .06));
+  --grad-warm: linear-gradient(135deg, #db2777 0%, #f59e0b 100%);
+  --grad-green: linear-gradient(135deg, #04834b 0%, #0d7d72 100%);
+  --grad-red: linear-gradient(135deg, #dc2545 0%, #be123c 100%);
+  --grad-amber: linear-gradient(135deg, #cc7a00 0%, #b45309 100%);
+  --grad-surface: linear-gradient(155deg, rgba(93, 76, 232, .032) 0%, rgba(8, 145, 178, .014) 46%, transparent 78%);
+  --grad-rail: linear-gradient(180deg, rgba(93, 76, 232, .05), transparent 42%);
+  --grad-mesh:
+    radial-gradient(1000px 560px at 82% -12%, rgba(93, 76, 232, .09), transparent 62%),
+    radial-gradient(820px 480px at 0% 104%, rgba(8, 145, 178, .06), transparent 60%);
+
+  /* ---- assistant panel ---------------------------------------------
+     Measured on the light panel: user bubble 6.11:1, chip 4.85:1, muted 5.01:1 */
+  --chat-user-bg: #5a48e0;
+  --chat-user-fg: #ffffff;
+  --chat-chip-fg: #5a48e0;
+  --chat-muted: #5c6880;
+
+  /* Light UIs need softer, tighter shadows or they look muddy */
+  --shadow-xs: 0 1px 2px rgba(17, 24, 48, .05);
+  --shadow-sm: 0 1px 2px rgba(17, 24, 48, .05), 0 1px 3px rgba(17, 24, 48, .06);
+  --shadow: 0 2px 8px rgba(17, 24, 48, .07), 0 8px 24px rgba(17, 24, 48, .06);
+  --shadow-lg: 0 6px 18px rgba(17, 24, 48, .09), 0 20px 48px rgba(17, 24, 48, .1);
+  --shadow-glow: 0 0 0 1px var(--border-glow), 0 6px 22px rgba(93, 76, 232, .16);
+  --shadow-accent: 0 3px 12px rgba(93, 76, 232, .28);
+  --shadow-green: 0 3px 12px rgba(6, 165, 95, .24);
+  --shadow-red: 0 3px 12px rgba(220, 37, 69, .24);
+  --shadow-amber: 0 3px 12px rgba(204, 122, 0, .24);
+}
+
+/* Shared geometry, type and motion tokens (theme independent) */
+:root {
+  --radius-lg: 18px;
+  --radius: 13px;
+  --radius-sm: 9px;
+  --radius-xs: 6px;
+  --radius-pill: 999px;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Type scale. Named by role rather than size so a page never picks a
+     number at random. */
+  --fs-display: 34px;
+  --fs-h1: 21px;
+  --fs-h2: 16px;
+  --fs-h3: 13.5px;
+  --fs-body: 13px;
+  --fs-sm: 12px;
+  --fs-xs: 11px;
+  --fs-micro: 10px;
+
+  /* Spacing scale, 4px based. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+
+  --sidebar-w: 244px;
+  --topbar-h: 62px;
+
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.4, .64, 1);
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --t-fast: .14s;
+  --t-mid: .24s;
+  --t-slow: .4s;
+}
+
+/* ------------------------------------------------------------------
+   Theme transition
+   Applied only while switching (class toggled by theme.js) so normal
+   interactions stay instant and no repaint cost is paid on every hover.
+   ------------------------------------------------------------------ */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color .32s var(--ease),
+              border-color .32s var(--ease),
+              color .32s var(--ease),
+              fill .32s var(--ease),
+              box-shadow .32s var(--ease) !important;
+  transition-delay: 0s !important;
+}
+
+/* ============================================================
+   Theme toggle control
+   ============================================================ */
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  width: 58px;
+  height: 30px;
+  padding: 3px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  cursor: pointer;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
+}
+.theme-toggle:hover { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.theme-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The sliding knob carries the gradient so the control feels alive */
+.theme-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--grad-accent);
+  box-shadow: var(--shadow-accent);
+  transition: transform var(--t-mid) var(--ease-spring);
+  z-index: 2;
+}
+[data-theme="light"] .theme-toggle-knob { transform: translateX(28px); }
+
+.theme-toggle-icon {
+  position: relative;
+  z-index: 1;
+  width: 26px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  line-height: 1;
+  transition: opacity var(--t-mid) var(--ease), transform var(--t-mid) var(--ease);
+  pointer-events: none;
+}
+.theme-toggle-icon.moon { opacity: 1; transform: scale(1); }
+.theme-toggle-icon.sun { opacity: .45; transform: scale(.85); }
+[data-theme="light"] .theme-toggle-icon.moon { opacity: .45; transform: scale(.85); }
+[data-theme="light"] .theme-toggle-icon.sun { opacity: 1; transform: scale(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-knob, .theme-toggle-icon { transition: none !important; }
+  .theme-transition, .theme-transition * { transition: none !important; }
+}

@@ -1,0 +1,13 @@
+meta:
+  algo: iqn
+  family: distributional
+  action_space: discrete
+  description: Implicit Quantile Network with an optional risk distortion.
+optimizer:
+  learning_rate: 5.0e-05
+distributional:
+  n_quantiles: 32
+  n_quantile_targets: 32
+  embedding_dim: 64
+  risk_distortion: neutral
+  cvar_alpha: 0.25

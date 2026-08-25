@@ -1,0 +1,11 @@
+meta:
+  algo: c51
+  family: distributional
+  action_space: discrete
+  description: Categorical DQN with 51 atoms over a fixed return support.
+optimizer:
+  learning_rate: 5.0e-05
+distributional:
+  n_atoms: 51
+  v_min: -10.0
+  v_max: 10.0

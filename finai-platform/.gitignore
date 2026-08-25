@@ -1,0 +1,47 @@
+# ------------------------------------------------------------------ python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# ------------------------------------------------------------------- tests
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+
+# -------------------------------------------------------------------- data
+# Generated artefacts: models, caches and the local SQLite database.
+data/cache/*
+data/models/*
+data/artifacts/*
+!data/cache/.gitkeep
+!data/models/.gitkeep
+!data/artifacts/.gitkeep
+*.db
+*.sqlite3
+*.parquet
+*.pt
+*.zip
+
+# ------------------------------------------------------------------ secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# --------------------------------------------------------------------- ide
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# -------------------------------------------------------------------- logs
+*.log
+logs/

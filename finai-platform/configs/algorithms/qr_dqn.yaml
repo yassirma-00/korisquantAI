@@ -1,0 +1,19 @@
+meta:
+  algo: qr_dqn
+  family: distributional
+  action_space: discrete
+  backend: sb3_contrib
+  requires: sb3-contrib
+  description: Distributional DQN via quantile regression.
+training:
+  total_timesteps: 25000
+optimizer:
+  learning_rate: 5.0e-05
+  batch_size: 64
+replay:
+  buffer_size: 50000
+  learning_starts: 500
+  target_update: 250
+exploration:
+  exploration_fraction: 0.3
+  epsilon_end: 0.05

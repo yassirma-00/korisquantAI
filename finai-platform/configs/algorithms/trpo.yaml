@@ -1,0 +1,17 @@
+meta:
+  algo: trpo
+  family: policy_gradient
+  action_space: both
+  backend: sb3_contrib
+  requires: sb3-contrib
+  description: Hard KL trust region instead of PPO's soft clip.
+training:
+  total_timesteps: 30000
+optimizer:
+  learning_rate: 0.001
+policy_gradient:
+  n_steps: 512
+  gae_lambda: 0.95
+  ent_coef: null
+  clip_range: null
+  cg_max_steps: 15

@@ -1,0 +1,15 @@
+meta:
+  name: Risk-Aware
+  description: Regime-adaptive. Normal penalties in calm markets, sharply higher in
+    a crash.
+  builtin: true
+risk:
+  risk_penalty: 0.2
+  drawdown_penalty: 0.45
+  cvar_penalty: 0.2
+  cvar_alpha: 0.05
+  regime_aware: true
+  regime_reward_weight: 2.0
+  regime_step: 3
+training:
+  episodes: 25

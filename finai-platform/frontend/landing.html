@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KorisQuant AI — Intelligent Financial Analysis &amp; Portfolio Management</title>
+<meta name="description" content="KorisQuant AI applies deep learning, reinforcement learning and explainable AI to market analysis, portfolio optimisation and risk management.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+/* Apply the stored/system theme before first paint to avoid a flash of the
+   wrong colour scheme. Must stay inline and synchronous. */
+(function () {
+  try {
+    var t = localStorage.getItem('korisquant:theme') || localStorage.getItem('finai:theme');
+    if (!t) t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+})();
+</script>
+<link rel="stylesheet" href="/assets/css/theme.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<link rel="stylesheet" href="/assets/css/landing.css">
+</head>
+<body class="landing">
+
+<!-- ------------------------------------------------------------- header -->
+<header class="lp-nav" id="lpNav">
+  <a class="lp-brand" href="/">
+    <span class="lp-logo">K</span>
+    <span>
+      <span class="lp-brand-name">KorisQuant AI</span>
+      <span class="lp-brand-sub">Intelligent Market Research</span>
+    </span>
+  </a>
+  <nav class="lp-nav-links">
+    <a href="#features">Features</a>
+    <a href="#platform">Platform</a>
+    <a href="#numbers">Results</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+  <div class="lp-nav-actions" id="navActions">
+    <button class="btn btn-sm" id="navLogin">Log in</button>
+    <button class="btn btn-sm btn-primary" id="navRegister">Register</button>
+  </div>
+</header>
+
+<!-- --------------------------------------------------------------- hero -->
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <div class="lp-hero-copy">
+      <span class="lp-eyebrow">Deep learning · Reinforcement learning · Explainable AI</span>
+      <h1 class="lp-title">
+        Quantitative research,<br><span class="lp-gradient">without the black box</span>
+      </h1>
+      <p class="lp-lede">
+        KorisQuant AI brings forecasting models, trading agents and a risk engine
+        into one workspace — and shows you exactly how every number was produced.
+        Built for people who would rather verify a signal than trust it.
+      </p>
+      <div class="lp-cta">
+        <button class="btn btn-primary btn-lg" id="heroStart">Get Started →</button>
+        <a class="btn btn-lg" href="#platform">See the platform</a>
+      </div>
+      <p class="lp-note">
+        Free and open · No credit card · Educational and research software, not investment advice
+      </p>
+    </div>
+
+    <div class="lp-hero-visual">
+      <div class="lp-window">
+        <div class="lp-window-bar">
+          <span class="lp-dot"></span><span class="lp-dot"></span><span class="lp-dot"></span>
+          <span class="lp-window-title">KorisQuant AI · Technical Analysis</span>
+        </div>
+        <img src="/assets/img/screen-analysis.png" alt="KorisQuant AI technical analysis screen"
+             loading="eager" width="1600" height="1000">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------ numbers -->
+<section class="lp-strip" id="numbers">
+  <div class="lp-strip-inner">
+    <div class="lp-stat"><span class="lp-stat-value" data-count="13">13</span>
+      <span class="lp-stat-label">RL algorithms</span></div>
+    <div class="lp-stat"><span class="lp-stat-value" data-count="5">5</span>
+      <span class="lp-stat-label">Deep-learning architectures</span></div>
+    <div class="lp-stat"><span class="lp-stat-value" data-count="17">17</span>
+      <span class="lp-stat-label">Technical indicators</span></div>
+    <div class="lp-stat"><span class="lp-stat-value" data-count="776">776</span>
+      <span class="lp-stat-label">Automated tests passing</span></div>
+  </div>
+</section>
+
+<!-- ----------------------------------------------------------- features -->
+<section class="lp-section" id="features">
+  <div class="lp-section-head">
+    <span class="lp-eyebrow">Capabilities</span>
+    <h2>Eight engines, one workspace</h2>
+    <p>Each module is usable on its own and every output is traceable back to the
+       data and the model that produced it.</p>
+  </div>
+
+  <div class="lp-grid">
+    <article class="lp-card">
+      <span class="lp-icon">◈</span>
+      <h3>AI financial analysis</h3>
+      <p>Multi-signal fusion across forecasts, agents, indicators and news
+         sentiment, weighted by how reliable each source has actually been.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">▤</span>
+      <h3>Portfolio optimisation</h3>
+      <p>Mean-variance and risk-parity allocation with position caps, an
+         efficient frontier, and rebalancing plans priced with real costs.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">◭</span>
+      <h3>Market prediction</h3>
+      <p>LSTM, GRU, TCN, Transformer and CNN-LSTM forecasts, each shipped with a
+         conformal prediction interval whose coverage is measured, not assumed.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">⬡</span>
+      <h3>Reinforcement learning</h3>
+      <p>Thirteen algorithms from DQN to SAC, trained on strictly disjoint
+         splits and benchmarked against buy &amp; hold after costs.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">◇</span>
+      <h3>Explainable AI</h3>
+      <p>SHAP, LIME, permutation importance and counterfactuals answer
+         <em>why</em> a model reached its conclusion, feature by feature.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">⚠</span>
+      <h3>Risk management</h3>
+      <p>VaR and CVaR with Kupiec and Christoffersen backtests, EVT tail
+         analysis, crash-risk scoring and anomaly detection.</p>
+    </article>
+    <article class="lp-card">
+      <span class="lp-icon">◉</span>
+      <h3>Technical analysis</h3>
+      <p>Seventeen indicators with rule-based consensus across equities, ETFs,
+         crypto, commodities, forex and indices.</p>
+    </article>
+    <article class="lp-card lp-card-accent">
+      <span class="lp-icon">✦</span>
+      <h3>KorisQuant AI Assistant</h3>
+      <p>Ask questions in plain language. The assistant reads the platform's own
+         engines through 15 read-only tools — it cannot invent a number.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ----------------------------------------------------------- platform -->
+<section class="lp-section lp-section-alt" id="platform">
+  <div class="lp-section-head">
+    <span class="lp-eyebrow">Inside the product</span>
+    <h2>Everything on one screen</h2>
+    <p>Real screenshots from the running application — not mock-ups.</p>
+  </div>
+
+  <div class="lp-showcase">
+    <div class="lp-shot lp-shot-wide">
+      <img src="/assets/img/screen-dashboard.png" alt="Market overview dashboard"
+           loading="lazy" width="1600" height="1000">
+      <div class="lp-shot-caption"><strong>Market Overview</strong>
+        Indices, watchlist, breadth, sentiment and live alerts.</div>
+    </div>
+    <div class="lp-shot">
+      <img src="/assets/img/screen-rl.png" alt="Reinforcement learning agent screen"
+           loading="lazy" width="1600" height="1000">
+      <div class="lp-shot-caption"><strong>RL Agent</strong>
+        Train an agent and compare it honestly against buy &amp; hold.</div>
+    </div>
+    <div class="lp-shot">
+      <img src="/assets/img/screen-analysis.png" alt="Technical analysis screen"
+           loading="lazy" width="1600" height="1000">
+      <div class="lp-shot-caption"><strong>Technical Analysis</strong>
+        Candlesticks, overlays, oscillators and indicator consensus.</div>
+    </div>
+  </div>
+</section>
+
+<!-- --------------------------------------------------------- philosophy -->
+<section class="lp-section" id="honesty">
+  <div class="lp-honesty">
+    <div class="lp-section-head lp-left">
+      <span class="lp-eyebrow">What makes it different</span>
+      <h2>It tells you when it is wrong</h2>
+      <p>Most tools show you the run that worked. KorisQuant AI reports the
+         result it actually measured, including the unflattering ones.</p>
+    </div>
+    <ul class="lp-checks">
+      <li><strong>Agents that lose are shown losing.</strong> If a strategy
+        underperforms buy &amp; hold after costs, the dashboard says so.</li>
+      <li><strong>Simulated data is labelled.</strong> When a live provider is
+        unreachable the synthetic fallback is badged, never passed off as real.</li>
+      <li><strong>Intervals are validated.</strong> Conformal coverage is
+        measured against outcomes rather than assumed from a normal curve.</li>
+      <li><strong>No leakage.</strong> Train and test splits are strictly
+        disjoint, enforced by an assertion at runtime.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------------- faq -->
+<section class="lp-section lp-section-alt" id="faq">
+  <div class="lp-section-head">
+    <span class="lp-eyebrow">Questions</span>
+    <h2>Before you start</h2>
+  </div>
+  <div class="lp-faq">
+    <details><summary>Is this investment advice?</summary>
+      <p>No. KorisQuant AI is educational and research software. Every output is
+         a statistical estimate produced by a model, and markets are
+         non-stationary — past performance never guarantees future results.
+         Validate independently before risking capital.</p></details>
+    <details><summary>Do I need an account?</summary>
+      <p>You can open the dashboard and explore immediately. An account keeps
+         your portfolios and preferences across sessions.</p></details>
+    <details><summary>Where does the market data come from?</summary>
+      <p>Live quotes come from public providers, led by Yahoo Finance. If none
+         responds, a deterministic synthetic engine takes over so the platform
+         stays usable — and everything derived from it is badged
+         <em>SIMULATED</em>.</p></details>
+    <details><summary>Can the AI assistant make things up?</summary>
+      <p>It has no market data in its prompt. To state any figure it has to call
+         one of fifteen read-only tools that query the same engines the
+         dashboard uses, and each answer lists the tools it consulted.</p></details>
+  </div>
+</section>
+
+<!-- ----------------------------------------------------------- final cta -->
+<section class="lp-final">
+  <h2>Start exploring the markets</h2>
+  <p>No installation, no credit card. Open the dashboard and run your first
+     analysis in under a minute.</p>
+  <div class="lp-cta lp-cta-center">
+    <button class="btn btn-primary btn-lg" id="finalStart">Get Started →</button>
+    <button class="btn btn-lg" id="finalRegister">Create an account</button>
+  </div>
+</section>
+
+<!-- ------------------------------------------------------------- footer -->
+<footer class="lp-footer">
+  <div class="lp-footer-grid">
+    <div>
+      <a class="lp-brand" href="/">
+        <span class="lp-logo">K</span>
+        <span><span class="lp-brand-name">KorisQuant AI</span></span>
+      </a>
+      <p class="lp-footer-blurb">
+        Intelligent financial analysis and portfolio management, powered by
+        machine learning, deep learning and reinforcement learning.
+      </p>
+    </div>
+    <div>
+      <h4>Platform</h4>
+      <a href="/dashboard">Market Overview</a>
+      <a href="/analysis.html">Technical Analysis</a>
+      <a href="/forecast.html">AI Forecasting</a>
+      <a href="/rl.html">RL Agent</a>
+      <a href="/portfolio.html">Portfolio</a>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+      <a href="/docs">API reference</a>
+      <a href="#honesty">Our approach</a>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="mailto:contact@korisquant.ai">contact@korisquant.ai</a>
+      <a href="mailto:support@korisquant.ai">support@korisquant.ai</a>
+      <a href="#" id="privacyLink">Privacy policy</a>
+      <a href="#" id="termsLink">Terms of use</a>
+    </div>
+  </div>
+
+  <div class="lp-disclaimer">
+    <strong>Disclaimer</strong> — KorisQuant AI is educational and research
+    software. All forecasts, agent actions and recommendations are statistical
+    outputs, not investment advice. Markets are non-stationary and past
+    performance never guarantees future results.
+  </div>
+
+  <div class="lp-footer-bottom">
+    <span>© <span id="lpYear">2026</span> KorisQuant AI. All rights reserved.</span>
+    <span class="lp-footer-legal">
+      <a href="#" data-legal="privacy">Privacy</a>
+      <a href="#" data-legal="terms">Terms</a>
+      <a href="mailto:contact@korisquant.ai">Contact</a>
+    </span>
+  </div>
+</footer>
+
+<!-- --------------------------------------------------------- auth modal -->
+<div class="lp-modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+  <div class="lp-modal-card">
+    <button class="lp-modal-close" id="authClose" aria-label="Close">✕</button>
+    <div class="lp-modal-tabs">
+      <button class="lp-tab active" data-tab="login">Log in</button>
+      <button class="lp-tab" data-tab="register">Register</button>
+    </div>
+
+    <form class="lp-form" id="loginForm">
+      <h3 id="authTitle">Welcome back</h3>
+      <label for="loginId">Username or email</label>
+      <input type="text" id="loginId" autocomplete="username" required>
+      <label for="loginPw">Password</label>
+      <input type="password" id="loginPw" autocomplete="current-password" required>
+      <div class="lp-form-error" id="loginError"></div>
+      <button type="submit" class="btn btn-primary" id="loginSubmit">Log in</button>
+    </form>
+
+    <form class="lp-form hidden" id="registerForm">
+      <h3>Create your account</h3>
+      <label for="regName">Full name <span class="lp-optional">(optional)</span></label>
+      <input type="text" id="regName" autocomplete="name">
+      <label for="regUser">Username</label>
+      <input type="text" id="regUser" autocomplete="username" required
+             pattern="[A-Za-z0-9_.\-]{3,32}" title="3–32 letters, digits, . _ or -">
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" autocomplete="email" required>
+      <label for="regPw">Password</label>
+      <input type="password" id="regPw" autocomplete="new-password" required minlength="8">
+      <div class="lp-hint">At least 8 characters, including a letter and a number.</div>
+      <div class="lp-form-error" id="registerError"></div>
+      <button type="submit" class="btn btn-primary" id="registerSubmit">Create account</button>
+    </form>
+  </div>
+</div>
+
+<!-- ------------------------------------------------------- legal modal -->
+<div class="lp-modal" id="legalModal" role="dialog" aria-modal="true" aria-labelledby="legalTitle">
+  <div class="lp-modal-card lp-modal-wide">
+    <button class="lp-modal-close" id="legalClose" aria-label="Close">✕</button>
+    <h3 id="legalTitle">Privacy policy</h3>
+    <div class="lp-legal-body" id="legalBody"></div>
+  </div>
+</div>
+
+<script src="/assets/js/theme.js"></script>
+<script src="/assets/js/api.js"></script>
+<script src="/assets/js/landing.js"></script>
+</body>
+</html>
