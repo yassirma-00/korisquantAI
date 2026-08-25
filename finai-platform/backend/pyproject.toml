@@ -6,7 +6,6 @@ build-backend = "setuptools.build_meta"
 name = "finai-platform"
 version = "0.1.0"
 description = "Intelligent web platform for financial analysis and portfolio management (AI/ML/DL/RL)"
-readme = "../README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
